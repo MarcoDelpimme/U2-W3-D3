@@ -7,7 +7,14 @@
     <title>Libreria</title>
   </head>
   <body class="bg-dark">
+    <!-- <ul id="cartList"></ul> -->
     <div class="container mt-5">
+      <div class="container mt-5">
+        <button class="btn btn-primary" id="myCartButton" data-bs-toggle="dropdown" aria-expanded="false">
+          My Cart
+        </button>
+        <ul class="dropdown-menu bg-dark" id="cartDropdown" aria-labelledby="myCartButton"></ul>
+      </div>
       <div class="row" id="bookList"></div>
     </div>
     <script src="./index.js"></script>
