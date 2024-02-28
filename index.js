@@ -13,10 +13,9 @@ fetch("https://striveschool-api.herokuapp.com/books")
     books.forEach((book) => {
       addBookToPage(book);
     });
-    displayCart();
   })
-  .catch((errore) => {
-    console.error(errore.error);
+  .catch((error) => {
+    console.error(error);
   });
 
 function addBookToPage(book) {
@@ -55,45 +54,6 @@ function addBookToPage(book) {
   addToCart.onclick = () => addToCartNow(book);
   bodyCard.appendChild(addToCart);
 
-  function addToCartNow(book) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart.push(book);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    console.log(cart);
-    displayCart();
-  }
-
-  function displayCart() {
-    const cartList = document.getElementById("cartDropdown");
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Cancella il contenuto precedente
-    cartList.innerHTML = "";
-
-    cart.forEach((book, index) => {
-      const cartItem = document.createElement("li");
-      cartItem.innerText = book.title;
-      cartItem.style.color = "white";
-      const removeButton = document.createElement("button");
-      removeButton.innerText = "Remove";
-      removeButton.classList.add("btn", "btn-danger", "ms-2");
-      removeButton.onclick = () => removeFromCart(index);
-
-      cartItem.appendChild(removeButton);
-
-      cartDropdown.appendChild(cartItem);
-    });
-  }
-
-  function removeFromCart(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    displayCart();
-  }
-
   const removeCard = () => {
     column.remove();
   };
@@ -110,3 +70,47 @@ function addBookToPage(book) {
   bookList.appendChild(column);
   bodyCard.appendChild(price);
 }
+
+function displayCart() {
+  const cartList = document.getElementById("cartDropdown");
+  const cart = JSON.parse(localStorage.getItem("cart"));
+
+  cartList.innerHTML = "";
+
+  if (cart) {
+    cart.forEach((book, index) => {
+      const cartItem = document.createElement("li");
+      cartItem.innerText = book.title;
+      cartItem.style.color = "white";
+      const removeButton = document.createElement("button");
+      removeButton.innerText = "Remove";
+      removeButton.classList.add("btn", "btn-danger", "ms-2");
+      removeButton.onclick = () => removeFromCart(index);
+
+      cartItem.appendChild(removeButton);
+
+      cartList.appendChild(cartItem);
+    });
+  }
+}
+
+function addToCartNow(book) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.push(book);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  console.log(cart);
+  displayCart();
+}
+
+function removeFromCart(index) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  displayCart();
+}
+
+window.onload = () => {
+  displayCart();
+};
