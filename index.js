@@ -76,4 +76,5 @@ function addBookToPage(book) {
   card.appendChild(bodyCard);
   column.appendChild(card);
   bookList.appendChild(column);
+  bodyCard.appendChild(price);
 }
